@@ -1,0 +1,46 @@
+version: "3.7"
+services:
+  frontend:
+    image: node:14.8
+    volumes:
+      - "./frontend:/mnt/frontend"
+    working_dir: "/mnt/frontend"
+    environment:
+      PORT: 8080
+      REACT_APP_BACKEND_URL: ${BACKEND_URL:-http://localhost:9090/}
+    entrypoint: "/bin/bash -c"
+    command:
+      - |
+        CI=true npm start || (\
+          echo "⛔ \`npm start\` failed, but the container is running..." && \
+          tail -f /dev/null \
+        )
+    ports:
+      - 8080:8080
+
+  backend:
+    image: node:14.8
+    volumes:
+      - "./backend:/mnt/backend"
+    working_dir: "/mnt/backend"
+    environment:
+      PORT: 9090
+      DB_URL: ${DB_URL:-mongodb://mongouser:mongopassword@mongo:27017/propman}
+    entrypoint: "/bin/bash -c"
+    command:
+      - |
+        npm run start:dev || (\
+          echo "⛔ \`npm start\` failed, but the container is running..." && \
+          tail -f /dev/null \
+        )
+    ports:
+      - 9090:9090
+
+  mongo:
+    image: mongo
+    volumes:
+      - "./db/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d"
+    environment:
+      MONGO_USERNAME: mongouser
+      MONGO_PASSWORD: mongopassword
+      MONGO_DATABASE: propman

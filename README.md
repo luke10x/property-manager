@@ -74,3 +74,5 @@ there are shorthand commands to run bash feom within running containers:
 
 - Enable CORS check;
 - Disable Playground in production;
+- Test failure scenarios;
+- Test DB;

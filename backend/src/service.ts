@@ -1,47 +1,27 @@
-interface PropertyDetails {
+import { findAll, findOne, insertOne, replaceOne } from "./db";
+
+export interface PropertyDetails {
   type: "APARTMENT" | "HOUSE";
   address: string;
   bedrooms: number;
 }
 
-interface Property extends PropertyDetails {
+export interface Property extends PropertyDetails {
   id: string;
 }
 
-export const getOne = (id: string): Property => {
-  return {
-    id: "shana tova",
-    type: "APARTMENT",
-    address: "1200 Midlands ave, Bronxville, NY, 10708",
-    bedrooms: 2
-  };
+export const getOne = async (id: string): Promise<Property> => {
+  return await findOne(id);
 };
 
-export const getList = (): Property[] => {
-  return [
-    {
-      id: "shana tova",
-      type: "APARTMENT",
-      address: "1200 Midlands ave, Bronxville, NY, 10708",
-      bedrooms: 2
-    }
-  ];
+export const getList = async (): Promise<Property[]> => {
+  return await findAll();
 };
 
-export const create = (details: PropertyDetails): Property => {
-  return {
-    id: "shana tova",
-    type: "APARTMENT",
-    address: "1200 Midlands ave, Bronxville, NY, 10708",
-    bedrooms: 2
-  };
+export const create = async (details: PropertyDetails): Promise<Property> => {
+  return await insertOne(details);
 };
 
-export const update = (id: string, details: PropertyDetails): Property => {
-  return {
-    id: "shana tova",
-    type: "APARTMENT",
-    address: "1200 Midlands ave, Bronxville, NY, 10708",
-    bedrooms: 2
-  };
+export const update = async (id: string, details: PropertyDetails): Promise<Property> => {
+  return await replaceOne(id, details);
 };

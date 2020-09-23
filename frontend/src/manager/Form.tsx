@@ -1,12 +1,12 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
-import { StyledForm } from "./Styled";
-import { PropertyDetails, PropertyType } from "./UsePropertyReducer";
+import React, { useEffect } from 'react';
+import { useState } from 'react';
+import { StyledForm } from './Styled';
+import { PropertyDetails, PropertyType } from './UsePropertyReducer';
 
 interface FormProps {
   close: () => void;
   onSave: (formData: PropertyDetails) => void;
-  data: PropertyDetails
+  data: PropertyDetails;
 }
 
 export const Form: React.FC<FormProps> = (props: FormProps) => {
@@ -22,21 +22,21 @@ export const Form: React.FC<FormProps> = (props: FormProps) => {
 
   const handleTypeChange = (evt: React.ChangeEvent<HTMLSelectElement>) => {
     setType(evt.target.value as PropertyType);
-  }
+  };
   const handleAddressChange = (evt: React.ChangeEvent<HTMLTextAreaElement>) => {
     setAddress(evt.target.value);
-  }
+  };
   const handleBedroomsChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     setBedrooms(Number(evt.target.value));
-  }
+  };
   const handleSubmit = (evt: React.MouseEvent<HTMLButtonElement>) => {
     const newProperty = {
       type,
       address,
       bedrooms,
-    }
+    };
     props.onSave(newProperty);
-  }
+  };
 
   return (
     <StyledForm>
@@ -44,33 +44,34 @@ export const Form: React.FC<FormProps> = (props: FormProps) => {
         <span onClick={props.close}>&lt; back</span>
       </div>
       <div className="formgrid">
-        <select 
-          id="type-input"
-          onChange={handleTypeChange}
-          value={type}
-        >
+        <select id="type-input" onChange={handleTypeChange} value={type}>
           <option value="APARTMENT">Apartment</option>
           <option value="HOUSE">house</option>
         </select>
         <label htmlFor="type-input">Type</label>
 
-        <textarea 
+        <textarea
           id="address-input"
           rows={4}
           onChange={handleAddressChange}
           defaultValue={address}
         ></textarea>
         <label htmlFor="address-input">Address</label>
-    
-        <input 
+
+        <input
           id="bedrooms-input"
           onChange={handleBedroomsChange}
           value={bedrooms}
-          type="number" min="0" step="1" />
+          type="number"
+          min="0"
+          step="1"
+        />
         <label htmlFor="bedrooms-input">Bedrooms</label>
-    
-        <button type="submit" onClick={handleSubmit}>Save</button>
+
+        <button type="submit" onClick={handleSubmit}>
+          Save
+        </button>
       </div>
     </StyledForm>
   );
-}
+};

@@ -1,7 +1,7 @@
-import { findAll, findOne, insertOne, replaceOne } from "./db";
+import { findAll, findOne, insertOne, replaceOne } from './db';
 
 export interface PropertyDetails {
-  type: "APARTMENT" | "HOUSE";
+  type: 'APARTMENT' | 'HOUSE';
   address: string;
   bedrooms: number;
 }
@@ -22,6 +22,9 @@ export const create = async (details: PropertyDetails): Promise<Property> => {
   return await insertOne(details);
 };
 
-export const update = async (id: string, details: PropertyDetails): Promise<Property> => {
+export const update = async (
+  id: string,
+  details: PropertyDetails,
+): Promise<Property> => {
   return await replaceOne(id, details);
 };

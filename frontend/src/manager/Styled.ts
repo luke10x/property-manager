@@ -44,16 +44,16 @@ export const StyledDashboard = styled.div`
   }
   .footer {
     padding: 1em;
-    color: white; 
+    color: white;
     a {
       color: #f1b31c;
     }
     a:hover {
-      color: #fcea2b
+      color: #fcea2b;
     }
   }
 
-  @media (min-width: 1000px){
+  @media (min-width: 1000px) {
     width: 1000px;
     margin: 0 auto;
   }

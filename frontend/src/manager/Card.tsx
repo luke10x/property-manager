@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
-import { Form } from "./Form";
-import { useManualQuery, useMutation } from 'graphql-hooks'
-import { Action, MiniProperty, PropertyDetails } from "./UsePropertyReducer";
+import React, { useEffect } from 'react';
+import { useState } from 'react';
+import { Form } from './Form';
+import { useManualQuery, useMutation } from 'graphql-hooks';
+import { Action, MiniProperty, PropertyDetails } from './UsePropertyReducer';
 
 const ITEM_GQL = `
   query ($id: String!) {
@@ -32,15 +32,18 @@ interface CardProps {
 }
 
 export const Card: React.FC<CardProps> = (props: CardProps) => {
-  const [isFormVisible, setFormVisible] = useState<Boolean>(false);
-  const [fetchProperty, { loading: itemLoading, data: itemData }] = useManualQuery(ITEM_GQL)
+  const [isFormVisible, setFormVisible] = useState<boolean>(false);
+  const [
+    fetchProperty,
+    { loading: itemLoading, data: itemData },
+  ] = useManualQuery(ITEM_GQL);
 
   const idemId = props.item.id;
   useEffect(() => {
     if (isFormVisible) {
-      fetchProperty({variables: { id: idemId } });
+      fetchProperty({ variables: { id: idemId } });
     }
-  }, [isFormVisible, idemId, fetchProperty])
+  }, [isFormVisible, idemId, fetchProperty]);
 
   const [savedData, setSavedData] = useState<PropertyDetails>({
     type: 'APARTMENT',
@@ -52,7 +55,7 @@ export const Card: React.FC<CardProps> = (props: CardProps) => {
     if (itemData?.getProperty !== undefined) {
       setSavedData(itemData?.getProperty);
     }
-  }, [itemData, setSavedData])
+  }, [itemData, setSavedData]);
 
   const [updateProperty, { data: updateData }] = useMutation(UPDATE_PROPERTY);
 
@@ -61,38 +64,45 @@ export const Card: React.FC<CardProps> = (props: CardProps) => {
       variables: {
         id: props.item.id,
         input: changedProperty,
-      }
+      },
     });
     setSavedData(changedProperty);
-  }
+  };
 
   const dispatch = props.dispatch;
   useEffect(() => {
     if (updateData?.updateProperty !== undefined) {
       dispatch({
         actionType: 'Updated',
-        payload: updateData.updateProperty
+        payload: updateData.updateProperty,
       });
     }
     setFormVisible(false);
   }, [updateData, dispatch]);
 
-
   if (!isFormVisible) {
     return (
-      <div key={`card-${props.item.id}`} className="details card item" onClick={() => {
-        setFormVisible(true);
-      }}>
+      <div
+        key={`card-${props.item.id}`}
+        className="details card item"
+        onClick={() => {
+          setFormVisible(true);
+        }}
+      >
         <div className="address">
-          {props.item.address.split("\n").map((line, key) => <div key={key}>{line}</div>)}
+          {props.item.address.split('\n').map((line, key) => (
+            <div key={key}>{line}</div>
+          ))}
         </div>
       </div>
     );
   }
 
   const close = () => setFormVisible(false);
-  return <div key={`card-${props.item.id}`} className="form card item">
-    {!itemLoading && <Form close={close} onSave={onSave} data={savedData}/>}
-    {itemLoading && <div>Refreshing item....</div>}
-  </div>;
-}
+  return (
+    <div key={`card-${props.item.id}`} className="form card item">
+      {!itemLoading && <Form close={close} onSave={onSave} data={savedData} />}
+      {itemLoading && <div>Refreshing item....</div>}
+    </div>
+  );
+};

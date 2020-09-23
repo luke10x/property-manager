@@ -1,11 +1,11 @@
-import express from "express";
-import { apollo } from "./apollo";
+import express from 'express';
+import { apollo } from './apollo';
 
 const server = express();
 
 apollo.applyMiddleware({
   app: server,
-  path: "/"
+  path: '/',
 });
 
 const port = process.env.PORT || 9090;

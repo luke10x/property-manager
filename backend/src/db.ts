@@ -24,21 +24,21 @@ export const findAll = async (): Promise<Array<any>> => {
     .find({})
     .sort({ code: -1 })
     .toArray();
-  
+
   return records.map((data: any) => {
     return {
       id: data._id,
       address: data.address,
       type: data.type,
       bedrooms: data.bedrooms,
-    }
+    };
   });
 };
 
 export const findOne = async (id: string): Promise<Property> => {
   const db = await loadDb();
   const data = await db.collection('properties').findOne({
-    _id: new ObjectId(id)
+    _id: new ObjectId(id),
   });
   return {
     id: data._id,
@@ -48,25 +48,27 @@ export const findOne = async (id: string): Promise<Property> => {
   };
 };
 
-export const insertOne = async (newEntry: PropertyDetails): Promise<Property> => {
+export const insertOne = async (
+  newEntry: PropertyDetails,
+): Promise<Property> => {
   const db = await loadDb();
   const collection = db.collection('properties');
   const result = collection.insertOne(newEntry);
   return {
     id: (await result).insertedId,
-    ...newEntry
+    ...newEntry,
   };
 };
 
-export const replaceOne = async (id: string, details: PropertyDetails): Promise<Property> => {
+export const replaceOne = async (
+  id: string,
+  details: PropertyDetails,
+): Promise<Property> => {
   const db = await loadDb();
   const collection = db.collection('properties');
-  const result = collection.replaceOne(
-    { _id: new ObjectId(id) },
-    details,
-  );
+  const result = collection.replaceOne({ _id: new ObjectId(id) }, details);
   return {
     id,
     ...details,
-  }
+  };
 };

@@ -65,7 +65,6 @@ export const replaceOne = async (id: string, details: PropertyDetails): Promise<
     { _id: new ObjectId(id) },
     details,
   );
-  console.log('rex', result);
   return {
     id,
     ...details,

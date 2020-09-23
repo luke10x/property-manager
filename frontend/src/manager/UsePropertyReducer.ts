@@ -1,16 +1,16 @@
 import React, { useReducer } from 'react';
 
-export interface MiniProperty {
-  id: string;
-  address: string;
-};
-
 export type PropertyType = 'APARTMENT' | 'HOUSE' 
 
 export interface PropertyDetails {
   type: PropertyType;
   address: string;
   bedrooms: number;
+};
+
+export interface MiniProperty {
+  id: string;
+  address: string;
 };
 
 type State = MiniProperty[];

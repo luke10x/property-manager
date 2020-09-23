@@ -70,11 +70,18 @@ there are shorthand commands to run bash feom within running containers:
 
     make into-backend
 
-    db.getCollection('properties').remove({})
+    make into-mongo
+
+    make into-mongo-db
+    
+    # The last command will log you into mongo client,
+    # so you can run mongo commands over there like this:
+    > db.getCollection('properties').remove({})
 
 ### TODO
 
 - Enable CORS check;
 - Disable Playground in production;
 - Test failure scenarios;
+- Error handling;
 - Test DB;

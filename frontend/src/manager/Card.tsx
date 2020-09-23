@@ -42,7 +42,7 @@ export const Card: React.FC<CardProps> = (props: CardProps) => {
     }
   }, [isFormVisible, idemId, fetchProperty])
 
-  const [enteredData, setEnteredData] = useState<PropertyDetails>({
+  const [savedData, setSavedData] = useState<PropertyDetails>({
     type: 'APARTMENT',
     address: '',
     bedrooms: 0,
@@ -50,9 +50,9 @@ export const Card: React.FC<CardProps> = (props: CardProps) => {
 
   useEffect(() => {
     if (itemData?.getProperty !== undefined) {
-      setEnteredData(itemData?.getProperty);
+      setSavedData(itemData?.getProperty);
     }
-  }, [itemData, setEnteredData])
+  }, [itemData, setSavedData])
 
   const [updateProperty, { data: updateData }] = useMutation(UPDATE_PROPERTY);
 
@@ -63,18 +63,19 @@ export const Card: React.FC<CardProps> = (props: CardProps) => {
         input: changedProperty,
       }
     });
-    setEnteredData(changedProperty);
+    setSavedData(changedProperty);
   }
 
+  const dispatch = props.dispatch;
   useEffect(() => {
     if (updateData?.updateProperty !== undefined) {
-      props.dispatch({
+      dispatch({
         actionType: 'Updated',
         payload: updateData.updateProperty
       });
     }
     setFormVisible(false);
-  }, [updateData]);
+  }, [updateData, dispatch]);
 
 
   if (!isFormVisible) {
@@ -82,14 +83,16 @@ export const Card: React.FC<CardProps> = (props: CardProps) => {
       <div key={`card-${props.item.id}`} className="details card item" onClick={() => {
         setFormVisible(true);
       }}>
-        {props.item.address}
+        <div className="address">
+          {props.item.address.split("\n").map((line, key) => <div key={key}>{line}</div>)}
+        </div>
       </div>
     );
   }
 
   const close = () => setFormVisible(false);
   return <div key={`card-${props.item.id}`} className="form card item">
-    {!itemLoading && <Form close={close} onSave={onSave} data={enteredData}/>}
+    {!itemLoading && <Form close={close} onSave={onSave} data={savedData}/>}
     {itemLoading && <div>Refreshing item....</div>}
   </div>;
 }

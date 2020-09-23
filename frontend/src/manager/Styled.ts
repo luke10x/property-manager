@@ -1,20 +1,18 @@
 import styled from 'styled-components';
 
-const breakpointSmall = '620px';
-
-export const Styled = styled.div`
+export const StyledDashboard = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
   .content {
     flex: 1;
     display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
+    justify-content: space-between;
+    align-content: flex-start;
     flex-wrap: wrap;
 
     .item {
-      width: 300px;
+      flex: 1 0 300px;
       height: 200px;
       padding: 10px;
       margin: 10px;
@@ -22,11 +20,16 @@ export const Styled = styled.div`
       border-radius: 3px;
     }
     .details {
+      display: flex;
+      justify-content: center;
+      align-content: center;
+      align-items: center;
       cursor: pointer;
     }
     .card {
       background: white;
       color: black;
+      text-align: left;
     }
     button.plus {
       background: none;
@@ -38,21 +41,21 @@ export const Styled = styled.div`
     button.plus:hover {
       border: 5px dashed lightgrey;
     }
-    @media (max-width: ${breakpointSmall}) {
-      flex-direction: column;
-      justify-content: flex-start;
-    }
   }
   .footer {
-    flex: 0;
-    & > * {
-      margin: 0px auto;
-      box-sizing: border-box;
-      width: 50%;
-      @media (max-width: ${breakpointSmall}) {
-        width: 100%;
-      }
+    padding: 1em;
+    color: white; 
+    a {
+      color: #f1b31c;
     }
+    a:hover {
+      color: #fcea2b
+    }
+  }
+
+  @media (min-width: 1000px){
+    width: 1000px;
+    margin: 0 auto;
   }
 `;
 
@@ -123,6 +126,7 @@ export const StyledForm = styled.div`
     text-align: left;
     span {
       cursor: pointer;
+      color: red;
     }
   }
 `;

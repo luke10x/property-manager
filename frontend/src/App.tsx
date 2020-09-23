@@ -4,8 +4,8 @@ import './App.css';
 
 import { Dashboard } from './manager/Dashboard';
 
-const client = new GraphQLClient({ url: 'http://localhost:9090/' })
-
+const url = process.env.REACT_APP_BACKEND_URL || 'not-conrigured-backend-url';
+const client = new GraphQLClient({ url })
 
 const App: React.FC = () => {
   return (

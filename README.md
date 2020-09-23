@@ -70,6 +70,8 @@ there are shorthand commands to run bash feom within running containers:
 
     make into-backend
 
+    db.getCollection('properties').remove({})
+
 ### TODO
 
 - Enable CORS check;

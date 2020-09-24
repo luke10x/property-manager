@@ -45,7 +45,7 @@ export const Card: React.FC<CardProps> = (props: CardProps) => {
     if (isFormVisible && !savedData) {
       fetchProperty({ variables: { id: idemId } });
     }
-  }, [isFormVisible, idemId, fetchProperty]);
+  }, [isFormVisible, idemId, fetchProperty, savedData]);
 
   useEffect(() => {
     if (itemData?.getProperty !== undefined) {

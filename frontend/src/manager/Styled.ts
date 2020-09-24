@@ -10,10 +10,9 @@ export const StyledDashboard = styled.div`
     justify-content: space-between;
     align-content: flex-start;
     flex-wrap: wrap;
-    .status {
+    & > .status {
       width: 100%;
       color: grey;
-      // align: center;
     }
     .item {
       flex: 1 0 300px;

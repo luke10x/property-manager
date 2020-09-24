@@ -10,7 +10,11 @@ export const StyledDashboard = styled.div`
     justify-content: space-between;
     align-content: flex-start;
     flex-wrap: wrap;
-
+    .status {
+      width: 100%;
+      color: grey;
+      // align: center;
+    }
     .item {
       flex: 1 0 300px;
       height: 200px;
@@ -19,17 +23,21 @@ export const StyledDashboard = styled.div`
       box-sizing: border-box;
       border-radius: 3px;
     }
-    .details {
+
+    .envelope {
+      cursor: pointer;
+    }
+    .card {
       display: flex;
       justify-content: center;
       align-content: center;
       align-items: center;
-      cursor: pointer;
-    }
-    .card {
       background: white;
       color: black;
       text-align: left;
+      .status {
+        color: grey;
+      }
     }
     button.plus {
       background: none;

@@ -30,7 +30,7 @@ export const Dashboard: React.FC = () => {
   return (
     <StyledDashboard>
       <div className="content">
-        {initialLoading && <div>Loading...</div>}
+        {initialLoading && <div className="status">Loading...</div>}
         {!initialLoading &&
           state.map((item: MiniProperty) => {
             return (

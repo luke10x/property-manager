@@ -19,7 +19,9 @@ interface TailProps {
 
 export const Tail: React.FC<TailProps> = (props: TailProps) => {
   const [isFormVisible, setFormVisible] = useState<boolean>(false);
-  const [createPost, { data: createData }] = useMutation(CREATE_PROPERTY);
+  const [createPost, { data: createData, loading }] = useMutation(
+    CREATE_PROPERTY,
+  );
 
   const onSave = (newProperty: PropertyDetails) => {
     createPost({ variables: { input: newProperty } });
@@ -54,6 +56,15 @@ export const Tail: React.FC<TailProps> = (props: TailProps) => {
     address: '',
     bedrooms: 0,
   };
+
+  if (loading) {
+    return (
+      <div className="form card item">
+        <div className="status">Creating...</div>
+      </div>
+    );
+  }
+
   const close = () => setFormVisible(false);
   return (
     <div className="form card item">

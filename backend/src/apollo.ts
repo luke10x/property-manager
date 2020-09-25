@@ -1,8 +1,31 @@
 import { ApolloServer, gql } from 'apollo-server-express';
 import { getOne, getList, create, update } from './service';
 
-import fs from 'fs';
-const typeDefs = fs.readFileSync('node_modules/schema/property.graphql', 'utf8');
+const typeDefs = gql`
+  type Query {
+    getProperty(id: String!, input: PropertyInput): Property
+    getAllProperties: [Property]
+  }
+  type Mutation {
+    createProperty(input: PropertyInput): Property
+    updateProperty(id: String!, input: PropertyInput): Property
+  }
+  input PropertyInput {
+    type: PropertyType
+    address: String
+    bedrooms: Int
+  }
+  type Property {
+    id: String!
+    type: PropertyType
+    address: String
+    bedrooms: Int
+  }
+  enum PropertyType {
+    APARTMENT
+    HOUSE
+  }
+`;
 
 const getProperty = (_parent: any, args: { id: string }) => {
   console.log('🥳 GET ONE');

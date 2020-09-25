@@ -22,6 +22,7 @@ services:
     image: node:14.8
     volumes:
       - "./backend:/mnt/backend"
+      - "./schema:/mnt/schema"
     working_dir: "/mnt/backend"
     environment:
       PORT: 9090

@@ -1,0 +1,23 @@
+type Query {
+  getProperty(id: String!, input: PropertyInput): Property
+  getAllProperties: [Property]
+}
+type Mutation {
+  createProperty(input: PropertyInput): Property
+  updateProperty(id: String!, input: PropertyInput): Property
+}
+input PropertyInput {
+  type: PropertyType
+  address: String
+  bedrooms: Int
+}
+type Property {
+  id: String!
+  type: PropertyType
+  address: String
+  bedrooms: Int
+}
+enum PropertyType {
+  APARTMENT
+  HOUSE
+}

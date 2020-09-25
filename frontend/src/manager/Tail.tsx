@@ -5,8 +5,8 @@ import { Form } from './Form';
 import { Action, PropertyDetails } from './UsePropertyReducer';
 
 const CREATE_PROPERTY = `
-  mutation ($input: PropertyInput!) {
-    createProperty(input: $input) {
+  mutation ($input: ItemInput!) {
+    createItem(input: $input) {
       id
       address
     }
@@ -29,10 +29,10 @@ export const Tail: React.FC<TailProps> = (props: TailProps) => {
 
   const dispatch = props.dispatch;
   useEffect(() => {
-    if (createData?.createProperty !== undefined) {
+    if (createData?.createItem !== undefined) {
       dispatch({
         actionType: 'Created',
-        payload: createData.createProperty,
+        payload: createData.createItem,
       });
     }
     setFormVisible(false);

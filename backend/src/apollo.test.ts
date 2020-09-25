@@ -1,20 +1,19 @@
+import { ApolloServer } from 'apollo-server-express';
 import { createTestClient } from 'apollo-server-testing';
-import { apollo } from './apollo';
+import { createApollo } from './apollo';
 
 import { create, update, getOne, getList } from './service';
 jest.mock('./service');
 
 describe('when client calls', () => {
-  const { query } = createTestClient(apollo);
-
   const logSpy = jest.spyOn(console, 'log').mockImplementation(jest.fn());
   afterAll(() => logSpy.mockRestore());
   afterEach(() => jest.resetAllMocks());
 
-  describe('createProperty mutation', () => {
+  describe('createItem mutation', () => {
     const gql = `
-      mutation ($input: PropertyInput!) {
-        createProperty(input: $input) {
+      mutation ($input: ItemInput!) {
+        createItem(input: $input) {
           id
           address
         }
@@ -29,6 +28,7 @@ describe('when client calls', () => {
     };
 
     test('calls create service with input from request variables', async () => {
+      const { query } = createTestClient(await createApollo());
       const res = await query({ query: gql, variables });
 
       expect(create).toHaveBeenCalledWith(variables.input);
@@ -44,19 +44,20 @@ describe('when client calls', () => {
       };
       (create as jest.Mock).mockImplementation(() => dataReturnedFromService);
 
+      const { query } = createTestClient(await createApollo());
       const res = await query({ query: gql, variables });
 
-      expect(res.data?.createProperty).toEqual({
+      expect(res.data?.createItem).toEqual({
         id: 'id-created-by-service',
         address: '1200 Midlands ave, Bronxville, NY, 10708',
       });
     });
   });
 
-  describe('updateProperty mutation', () => {
+  describe('updateItem mutation', () => {
     const gql = `
-      mutation ($id: String!, $input: PropertyInput!) {
-        updateProperty(id: $id, input: $input) {
+      mutation ($id: String!, $input: ItemInput!) {
+        updateItem(id: $id, input: $input) {
           id
           address
         }
@@ -72,6 +73,7 @@ describe('when client calls', () => {
     };
 
     test('calls update service with id and input from request variables', async () => {
+      const { query } = createTestClient(await createApollo());
       const res = await query({ query: gql, variables });
 
       expect(update).toHaveBeenCalledWith(variables.id, variables.input);
@@ -87,19 +89,20 @@ describe('when client calls', () => {
       };
       (update as jest.Mock).mockImplementation(() => dataReturnedFromService);
 
+      const { query } = createTestClient(await createApollo());
       const res = await query({ query: gql, variables });
 
-      expect(res.data?.updateProperty).toEqual({
+      expect(res.data?.updateItem).toEqual({
         id: 'id-created-by-service',
         address: 'Singerstraße 33, 10243 Berlin',
       });
     });
   });
 
-  describe('getProperty query', () => {
+  describe('returnSingleItem query', () => {
     const gql = `
       query ($id: String!) {
-        getProperty(id: $id) {
+        returnSingleItem(id: $id) {
           id
           address
         }
@@ -110,6 +113,7 @@ describe('when client calls', () => {
     };
 
     test('calls getOne service with id from request variables', async () => {
+      const { query } = createTestClient(await createApollo());
       const res = await query({ query: gql, variables });
 
       expect(getOne).toHaveBeenCalledWith(variables.id);
@@ -125,19 +129,20 @@ describe('when client calls', () => {
       };
       (getOne as jest.Mock).mockImplementation(() => dataReturnedFromService);
 
+      const { query } = createTestClient(await createApollo());
       const res = await query({ query: gql, variables });
 
-      expect(res.data?.getProperty).toEqual({
+      expect(res.data?.returnSingleItem).toEqual({
         id: 'id-created-by-service',
         address: '1200 Midlands ave, Bronxville, NY, 10708',
       });
     });
   });
 
-  describe('getAllProperties query', () => {
+  describe('returnAllItems query', () => {
     const gql = `
       query {
-        getAllProperties {
+        returnAllItems {
           id
           address
         }
@@ -145,6 +150,7 @@ describe('when client calls', () => {
     `;
 
     test('calls getList service with no variables', async () => {
+      const { query } = createTestClient(await createApollo());
       const res = await query({ query: gql });
 
       expect(getList).toHaveBeenCalledWith();
@@ -162,9 +168,10 @@ describe('when client calls', () => {
       ];
       (getList as jest.Mock).mockImplementation(() => dataReturnedFromService);
 
+      const { query } = createTestClient(await createApollo());
       const res = await query({ query: gql });
 
-      expect(res.data?.getAllProperties).toEqual([
+      expect(res.data?.returnAllItems).toEqual([
         {
           id: 'id-created-by-service',
           address: '1200 Midlands ave, Bronxville, NY, 10708',

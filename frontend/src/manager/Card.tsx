@@ -3,29 +3,7 @@ import { useState } from 'react';
 import { Form } from './Form';
 import { useManualQuery, useMutation } from 'graphql-hooks';
 import { Action, MiniProperty, PropertyDetails } from './UsePropertyReducer';
-
-const ITEM_GQL = `
-  query ($id: String!) {
-    getProperty(id: $id) {
-      id
-      type
-      address
-      bedrooms
-    }
-  }
-`;
-
-const UPDATE_PROPERTY = `
-  mutation ($id: String!, $input: PropertyInput!) {
-    updateProperty(id: $id, input: $input) {
-      id
-      type
-      address
-      bedrooms
-    }
-  }
-`;
-
+import { ITEM_GQL, UPDATE_PROPERTY } from './Gql';
 interface CardProps {
   dispatch: React.Dispatch<Action>;
   item: MiniProperty;
@@ -40,16 +18,16 @@ export const Card: React.FC<CardProps> = (props: CardProps) => {
 
   const [savedData, setSavedData] = useState<PropertyDetails | undefined>();
 
-  const idemId = props.item.id;
+  const itemId = props.item.id;
   useEffect(() => {
     if (isFormVisible && !savedData) {
-      fetchProperty({ variables: { id: idemId } });
+      fetchProperty({ variables: { id: itemId } });
     }
-  }, [isFormVisible, idemId, fetchProperty, savedData]);
+  }, [isFormVisible, itemId, fetchProperty, savedData]);
 
   useEffect(() => {
-    if (itemData?.getProperty !== undefined) {
-      setSavedData(itemData?.getProperty);
+    if (itemData?.returnSingleItem !== undefined) {
+      setSavedData(itemData?.returnSingleItem);
     }
   }, [itemData, setSavedData]);
 
@@ -70,10 +48,10 @@ export const Card: React.FC<CardProps> = (props: CardProps) => {
 
   const dispatch = props.dispatch;
   useEffect(() => {
-    if (updateData?.updateProperty !== undefined) {
+    if (updateData?.updateItem !== undefined) {
       dispatch({
         actionType: 'Updated',
-        payload: updateData.updateProperty,
+        payload: updateData.updateItem,
       });
     }
   }, [updateData, dispatch]);

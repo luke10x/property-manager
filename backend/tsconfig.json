@@ -1,8 +1,10 @@
 {
   "compilerOptions": {
-    "target": "ES2015",
-    "module": "CommonJS",
-    "lib": ["es6"],
+    "target": "es2018",
+    "module": "commonjs",
+    "lib": ["es2018", "esnext.asynciterable"],
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "outDir": "./build",
     "types": ["node", "jest"],
     "moduleResolution": "node",

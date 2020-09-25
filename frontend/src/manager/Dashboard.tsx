@@ -4,15 +4,7 @@ import { useQuery } from 'graphql-hooks';
 import { Tail } from './Tail';
 import { MiniProperty, usePropertyReducer } from './UsePropertyReducer';
 import { Card } from './Card';
-
-const LIST_GQL = `
-  query {
-    getAllProperties {
-      id
-      address
-    }
-  }
-`;
+import { LIST_GQL } from './Gql';
 
 export const Dashboard: React.FC = () => {
   const { loading: initialLoading, data: initialData } = useQuery(LIST_GQL);
@@ -22,7 +14,7 @@ export const Dashboard: React.FC = () => {
     if (initialData !== undefined) {
       dispatch({
         actionType: 'Loaded',
-        payload: initialData?.getAllProperties,
+        payload: initialData?.returnAllItems,
       });
     }
   }, [initialData, dispatch]);

@@ -6,18 +6,18 @@
 import { ItemInput } from "./../global";
 
 // ====================================================
-// GraphQL mutation operation: createItem
+// GraphQL mutation operation: CreateItemMutation
 // ====================================================
 
-export interface createItem_createItem {
+export interface CreateItemMutation_createItem {
   id: string;
   address: string;
 }
 
-export interface createItem {
-  createItem: createItem_createItem;
+export interface CreateItemMutation {
+  createItem: CreateItemMutation_createItem;
 }
 
-export interface createItemVariables {
+export interface CreateItemMutationVariables {
   input: ItemInput;
 }

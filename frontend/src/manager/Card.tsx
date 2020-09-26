@@ -2,11 +2,16 @@ import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { Form } from './Form';
 import { useManualQuery, useMutation } from 'graphql-hooks';
-import { Action, MiniProperty, PropertyDetails } from './UsePropertyReducer';
-import { ITEM_GQL, UPDATE_PROPERTY } from './Gql';
+import { Action } from './UsePropertyReducer';
+import { SINGLE_ITEM_QUERY, UPDATE_ITEM_MUTATION } from './Gql';
+import { ItemInput } from '../_graphql/global';
+import { AllItemsQuery_returnAllItems as BasicItem } from '../_graphql/client/AllItemsQuery';
+import { SingleItemQuery } from '../_graphql/client/SingleItemQuery';
+import { UpdateItemMutation } from '../_graphql/client/UpdateItemMutation';
+
 interface CardProps {
   dispatch: React.Dispatch<Action>;
-  item: MiniProperty;
+  item: BasicItem;
 }
 
 export const Card: React.FC<CardProps> = (props: CardProps) => {
@@ -14,9 +19,9 @@ export const Card: React.FC<CardProps> = (props: CardProps) => {
   const [
     fetchProperty,
     { loading: refreshing, data: itemData },
-  ] = useManualQuery(ITEM_GQL);
+  ] = useManualQuery<SingleItemQuery>(SINGLE_ITEM_QUERY);
 
-  const [savedData, setSavedData] = useState<PropertyDetails | undefined>();
+  const [savedData, setSavedData] = useState<ItemInput | undefined>();
 
   const itemId = props.item.id;
   useEffect(() => {
@@ -26,16 +31,16 @@ export const Card: React.FC<CardProps> = (props: CardProps) => {
   }, [isFormVisible, itemId, fetchProperty, savedData]);
 
   useEffect(() => {
-    if (itemData?.returnSingleItem !== undefined) {
-      setSavedData(itemData?.returnSingleItem);
+    if (itemData !== undefined) {
+      setSavedData(itemData.returnSingleItem);
     }
   }, [itemData, setSavedData]);
 
-  const [updateProperty, { data: updateData, loading: saving }] = useMutation(
-    UPDATE_PROPERTY,
-  );
+  const [updateProperty, { data: updateData, loading: saving }] = useMutation<
+    UpdateItemMutation
+  >(UPDATE_ITEM_MUTATION);
 
-  const onSave = (changedProperty: PropertyDetails) => {
+  const onSave = (changedProperty: ItemInput) => {
     updateProperty({
       variables: {
         id: props.item.id,
@@ -48,7 +53,7 @@ export const Card: React.FC<CardProps> = (props: CardProps) => {
 
   const dispatch = props.dispatch;
   useEffect(() => {
-    if (updateData?.updateItem !== undefined) {
+    if (updateData !== undefined) {
       dispatch({
         actionType: 'Updated',
         payload: updateData.updateItem,

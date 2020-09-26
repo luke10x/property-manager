@@ -2,19 +2,25 @@ import React, { useEffect } from 'react';
 import { StyledDashboard } from './Styled';
 import { useQuery } from 'graphql-hooks';
 import { Tail } from './Tail';
-import { MiniProperty, usePropertyReducer } from './UsePropertyReducer';
+import { usePropertyReducer } from './UsePropertyReducer';
 import { Card } from './Card';
-import { LIST_GQL } from './Gql';
+import { ALL_ITEMS_QUERY } from './Gql';
+import {
+  AllItemsQuery,
+  AllItemsQuery_returnAllItems as BasicItem,
+} from '../_graphql/client/AllItemsQuery';
 
 export const Dashboard: React.FC = () => {
-  const { loading: initialLoading, data: initialData } = useQuery(LIST_GQL);
+  const { loading: initialLoading, data: initialData } = useQuery<
+    AllItemsQuery
+  >(ALL_ITEMS_QUERY);
   const [state, dispatch] = usePropertyReducer();
 
   useEffect(() => {
     if (initialData !== undefined) {
       dispatch({
         actionType: 'Loaded',
-        payload: initialData?.returnAllItems,
+        payload: initialData.returnAllItems,
       });
     }
   }, [initialData, dispatch]);
@@ -24,7 +30,7 @@ export const Dashboard: React.FC = () => {
       <div className="content">
         {initialLoading && <div className="status">Loading...</div>}
         {!initialLoading &&
-          state.map((item: MiniProperty) => {
+          state.map((item: BasicItem) => {
             return (
               <Card key={`item-${item.id}`} dispatch={dispatch} item={item} />
             );

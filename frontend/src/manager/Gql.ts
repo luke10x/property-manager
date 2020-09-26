@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 import { print } from 'graphql/language/printer';
 
-export const LIST_GQL = print(gql`
-  query allItems{
+export const ALL_ITEMS_QUERY = print(gql`
+  query AllItemsQuery {
     returnAllItems {
       id
       address
@@ -10,8 +10,8 @@ export const LIST_GQL = print(gql`
   }
 `);
 
-export const ITEM_GQL = print(gql`
-  query singleItem($id: String!) {
+export const SINGLE_ITEM_QUERY = print(gql`
+  query SingleItemQuery($id: String!) {
     returnSingleItem(id: $id) {
       id
       type
@@ -21,8 +21,8 @@ export const ITEM_GQL = print(gql`
   }
 `);
 
-export const UPDATE_PROPERTY = print(gql`
-  mutation updateItem($id: String!, $input: ItemInput!) {
+export const UPDATE_ITEM_MUTATION = print(gql`
+  mutation UpdateItemMutation($id: String!, $input: ItemInput!) {
     updateItem(id: $id, input: $input) {
       id
       type
@@ -32,12 +32,11 @@ export const UPDATE_PROPERTY = print(gql`
   }
 `);
 
-export const CREATE_PROPERTY = print(gql`
-  mutation createItem($input: ItemInput!) {
+export const CREATE_ITEM_MUTATION = print(gql`
+  mutation CreateItemMutation($input: ItemInput!) {
     createItem(input: $input) {
       id
       address
     }
   }
 `);
-

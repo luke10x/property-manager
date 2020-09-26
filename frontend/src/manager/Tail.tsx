@@ -2,8 +2,10 @@ import { useMutation } from 'graphql-hooks';
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { Form } from './Form';
-import { CREATE_PROPERTY } from './Gql';
-import { Action, PropertyDetails } from './UsePropertyReducer';
+import { CREATE_ITEM_MUTATION } from './Gql';
+import { Action } from './UsePropertyReducer';
+import { ItemInput, ItemType } from '../_graphql/global';
+import { CreateItemMutation } from '../_graphql/client/CreateItemMutation';
 
 interface TailProps {
   dispatch: React.Dispatch<Action>;
@@ -11,17 +13,17 @@ interface TailProps {
 
 export const Tail: React.FC<TailProps> = (props: TailProps) => {
   const [isFormVisible, setFormVisible] = useState<boolean>(false);
-  const [createPost, { data: createData, loading }] = useMutation(
-    CREATE_PROPERTY,
-  );
+  const [createProperty, { data: createData, loading }] = useMutation<
+    CreateItemMutation
+  >(CREATE_ITEM_MUTATION);
 
-  const onSave = (newProperty: PropertyDetails) => {
-    createPost({ variables: { input: newProperty } });
+  const onSave = (newProperty: ItemInput) => {
+    createProperty({ variables: { input: newProperty } });
   };
 
   const dispatch = props.dispatch;
   useEffect(() => {
-    if (createData?.createItem !== undefined) {
+    if (createData !== undefined) {
       dispatch({
         actionType: 'Created',
         payload: createData.createItem,
@@ -43,8 +45,8 @@ export const Tail: React.FC<TailProps> = (props: TailProps) => {
     );
   }
 
-  const data: PropertyDetails = {
-    type: 'APARTMENT',
+  const data: ItemInput = {
+    type: 'APARTMENT' as ItemType,
     address: '',
     bedrooms: 0,
   };

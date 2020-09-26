@@ -1,5 +1,5 @@
 import { MongoClient, ObjectId } from 'mongodb';
-import { Property, PropertyDetails } from './service';
+import { ItemInput, Item } from './types/Item';
 
 export const loadDb = async () => {
   const dbUrl = process.env.DB_URL;
@@ -35,7 +35,7 @@ export const findAll = async (): Promise<Array<any>> => {
   });
 };
 
-export const findOne = async (id: string): Promise<Property> => {
+export const findOne = async (id: string): Promise<Item> => {
   const db = await loadDb();
   const data = await db.collection('properties').findOne({
     _id: new ObjectId(id),
@@ -48,9 +48,7 @@ export const findOne = async (id: string): Promise<Property> => {
   };
 };
 
-export const insertOne = async (
-  newEntry: PropertyDetails,
-): Promise<Property> => {
+export const insertOne = async (newEntry: ItemInput): Promise<Item> => {
   const db = await loadDb();
   const collection = db.collection('properties');
   const result = collection.insertOne(newEntry);
@@ -62,11 +60,11 @@ export const insertOne = async (
 
 export const replaceOne = async (
   id: string,
-  details: PropertyDetails,
-): Promise<Property> => {
+  details: ItemInput,
+): Promise<Item> => {
   const db = await loadDb();
   const collection = db.collection('properties');
-  const result = collection.replaceOne({ _id: new ObjectId(id) }, details);
+  collection.replaceOne({ _id: new ObjectId(id) }, details);
   return {
     id,
     ...details,

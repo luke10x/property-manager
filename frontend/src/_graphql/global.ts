@@ -7,8 +7,16 @@
 // START Enums and Input Objects
 //==============================================================
 
+/**
+ * Possible types of an item
+ */
+export enum ItemType {
+  APARTMENT = "APARTMENT",
+  HOUSE = "HOUSE",
+}
+
 export interface ItemInput {
-  type: string;
+  type: ItemType;
   address: string;
   bedrooms: number;
 }

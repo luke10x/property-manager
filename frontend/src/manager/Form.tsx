@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { StyledForm } from './Styled';
-import { PropertyDetails, PropertyType } from './UsePropertyReducer';
+import { ItemInput, ItemType } from '../_graphql/global';
 
 interface FormProps {
   close: () => void;
-  onSave: (formData: PropertyDetails) => void;
-  data: PropertyDetails;
+  onSave: (formData: ItemInput) => void;
+  data: ItemInput;
 }
 
 export const Form: React.FC<FormProps> = (props: FormProps) => {
-  const [type, setType] = useState<PropertyType>(props.data.type);
+  const [type, setType] = useState<ItemType>(props.data.type);
   const [address, setAddress] = useState<string>(props.data.address);
   const [bedrooms, setBedrooms] = useState<number>(props.data.bedrooms);
 
@@ -21,7 +21,7 @@ export const Form: React.FC<FormProps> = (props: FormProps) => {
   }, [props]);
 
   const handleTypeChange = (evt: React.ChangeEvent<HTMLSelectElement>) => {
-    setType(evt.target.value as PropertyType);
+    setType(evt.target.value as ItemType);
   };
   const handleAddressChange = (evt: React.ChangeEvent<HTMLTextAreaElement>) => {
     setAddress(evt.target.value);
@@ -30,6 +30,7 @@ export const Form: React.FC<FormProps> = (props: FormProps) => {
     setBedrooms(Number(evt.target.value));
   };
   const handleSubmit = (evt: React.MouseEvent<HTMLButtonElement>) => {
+    evt.preventDefault();
     const newProperty = {
       type,
       address,

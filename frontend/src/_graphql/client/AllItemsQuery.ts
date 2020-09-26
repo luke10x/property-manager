@@ -4,20 +4,14 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: singleItem
+// GraphQL query operation: AllItemsQuery
 // ====================================================
 
-export interface singleItem_returnSingleItem {
+export interface AllItemsQuery_returnAllItems {
   id: string;
-  type: string;
   address: string;
-  bedrooms: number;
 }
 
-export interface singleItem {
-  returnSingleItem: singleItem_returnSingleItem;
-}
-
-export interface singleItemVariables {
-  id: string;
+export interface AllItemsQuery {
+  returnAllItems: AllItemsQuery_returnAllItems[];
 }

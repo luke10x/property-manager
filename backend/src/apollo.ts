@@ -1,7 +1,7 @@
 import { ApolloServer } from 'apollo-server-express';
-import { buildSchema } from "type-graphql";
+import { buildSchema } from 'type-graphql';
 
-import "reflect-metadata";
+import 'reflect-metadata';
 import { ItemResolver } from './resolver/item-resolver';
 
 export const createApollo = async () => {
@@ -10,6 +10,6 @@ export const createApollo = async () => {
     emitSchemaFile: true,
     validate: false,
   });
-  
-  return new ApolloServer({schema});
-}
+
+  return new ApolloServer({ schema });
+};

@@ -8,13 +8,19 @@ type Item {
   address: String!
   bedrooms: Int!
   id: ID!
-  type: String!
+  type: ItemType!
 }
 
 input ItemInput {
   address: String!
   bedrooms: Float!
-  type: String!
+  type: ItemType!
+}
+
+"""Possible types of an item"""
+enum ItemType {
+  APARTMENT
+  HOUSE
 }
 
 type Mutation {

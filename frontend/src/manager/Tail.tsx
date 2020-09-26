@@ -2,16 +2,8 @@ import { useMutation } from 'graphql-hooks';
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { Form } from './Form';
+import { CREATE_PROPERTY } from './Gql';
 import { Action, PropertyDetails } from './UsePropertyReducer';
-
-const CREATE_PROPERTY = `
-  mutation ($input: ItemInput!) {
-    createItem(input: $input) {
-      id
-      address
-    }
-  }
-`;
 
 interface TailProps {
   dispatch: React.Dispatch<Action>;

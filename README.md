@@ -67,13 +67,14 @@ To perform development tasks inside containers,
 there are shorthand commands to run bash feom within running containers:
 
     make into-frontend
+    # Here you can run:
+    $ npm run codegen
 
     make into-backend
 
     make into-mongo
 
     make into-mongo-db
-    
     # The last command will log you into mongo client,
     # so you can run mongo commands over there like this:
     > db.getCollection('properties').remove({})

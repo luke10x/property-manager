@@ -1,14 +1,17 @@
-export const LIST_GQL = `
-  query {
+import gql from 'graphql-tag';
+import { print } from 'graphql/language/printer';
+
+export const LIST_GQL = print(gql`
+  query allItems{
     returnAllItems {
       id
       address
     }
   }
-`;
+`);
 
-export const ITEM_GQL = `
-  query ($id: String!) {
+export const ITEM_GQL = print(gql`
+  query singleItem($id: String!) {
     returnSingleItem(id: $id) {
       id
       type
@@ -16,10 +19,10 @@ export const ITEM_GQL = `
       bedrooms
     }
   }
-`;
+`);
 
-export const UPDATE_PROPERTY = `
-  mutation ($id: String!, $input: ItemInput!) {
+export const UPDATE_PROPERTY = print(gql`
+  mutation updateItem($id: String!, $input: ItemInput!) {
     updateItem(id: $id, input: $input) {
       id
       type
@@ -27,5 +30,14 @@ export const UPDATE_PROPERTY = `
       bedrooms
     }
   }
-`;
+`);
+
+export const CREATE_PROPERTY = print(gql`
+  mutation createItem($input: ItemInput!) {
+    createItem(input: $input) {
+      id
+      address
+    }
+  }
+`);
 
